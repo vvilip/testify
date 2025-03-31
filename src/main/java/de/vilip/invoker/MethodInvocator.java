@@ -1,4 +1,4 @@
-package de.vilip.methods;
+package de.vilip.invoker;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,7 +27,7 @@ public class MethodInvocator
 		}
 		catch (InvocationTargetException e)
 		{
-
+			throw new NotEqualsException(e.getTargetException().getMessage());
 		}
 	}
 }

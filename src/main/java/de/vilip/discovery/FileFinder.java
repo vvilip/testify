@@ -1,4 +1,4 @@
-package de.vilip.files;
+package de.vilip.discovery;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -1,4 +1,4 @@
-package de.vilip.methods;
+package de.vilip.invoker;
 
 public class NotEqualsException extends RuntimeException
 {

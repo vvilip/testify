@@ -1,6 +1,6 @@
 package de.vilip.testclasses;
 
-import static de.vilip.testingwrapper.Assert.assertEquals;
+import static de.vilip.assertions.Assert.assertEquals;
 
 import de.vilip.annotations.Test;
 

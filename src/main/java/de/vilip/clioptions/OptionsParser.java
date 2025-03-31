@@ -1,4 +1,4 @@
-package de.vilip.options;
+package de.vilip.clioptions;
 
 import org.apache.commons.cli.*;
 
