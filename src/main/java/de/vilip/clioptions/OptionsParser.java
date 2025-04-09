@@ -16,11 +16,11 @@ public class OptionsParser
 	private static final String WRONG_OPTIONS_ERROR = "Wrong options used, please type testify --help for a list of options you have";
 	private static final String TOO_MUCH_PARAMETERS_ERROR = "Only one parameter is allowed.";
 
-	public TestEntity getOptionsValue(String... args)
+	public TestEntity parseOptions(String... args)
 	{
 		try
 		{
-			return getOptionValue(args);
+			return getDedicatedTestEntity(args);
 		}
 		catch (ParseException e)
 		{
@@ -28,11 +28,15 @@ public class OptionsParser
 		}
 	}
 
-	private TestEntity getOptionValue(String... args) throws ParseException
+	private TestEntity getDedicatedTestEntity(String... args) throws ParseException
 	{
 		CommandLineParser commandLineParser = new DefaultParser();
 		CommandLine commandLine = commandLineParser.parse(OPTIONS, args);
-		return getTestEntity(commandLine);
+
+		String optionFLag = getPresentOptions(commandLine);
+		String optionValue = commandLine.getOptionValue(optionFLag);
+
+		return createTestEntity(optionValue, optionFLag);
 	}
 
 	private TestEntity createTestEntity(String optionalValue, String optionalFlag)
@@ -46,12 +50,18 @@ public class OptionsParser
 		};
 	}
 
-	private TestEntity getTestEntity(CommandLine commandLine)
+	private String getPresentOptions(CommandLine commandLine)
 	{
 		List<String> presentOptions = VALID_OPTIONS.stream()
 			.filter(commandLine::hasOption)
 			.toList();
 
+		checkOptionCorrectness(presentOptions);
+		return presentOptions.getFirst();
+	}
+
+	private void checkOptionCorrectness(List<String> presentOptions)
+	{
 		if (presentOptions.isEmpty())
 		{
 			throw new IllegalArgumentException(WRONG_OPTIONS_ERROR);
@@ -60,10 +70,5 @@ public class OptionsParser
 		{
 			throw new IllegalArgumentException(TOO_MUCH_PARAMETERS_ERROR);
 		}
-
-		String presentOption = presentOptions.getFirst();
-		String optionValue = commandLine.getOptionValue(presentOption);
-
-		return createTestEntity(optionValue, presentOption);
 	}
 }

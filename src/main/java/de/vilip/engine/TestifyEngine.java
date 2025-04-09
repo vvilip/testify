@@ -32,7 +32,7 @@ public class TestifyEngine
 		LoggingUtils.printBanner();
 
 		OptionsParser optionsParser = new OptionsParser();
-		TestEntity testEntity = optionsParser.getOptionsValue(args);
+		TestEntity testEntity = optionsParser.parseOptions(args);
 
 		FileFinder fileFinder = new FileFinder();
 		Class<?> clazz = fileFinder.getTestClass("");
