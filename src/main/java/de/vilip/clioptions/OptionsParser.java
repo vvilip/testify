@@ -4,6 +4,11 @@ import java.util.Optional;
 
 import org.apache.commons.cli.*;
 
+import de.vilip.discovery.testentities.SingleTest;
+import de.vilip.discovery.testentities.TestDirectory;
+import de.vilip.discovery.testentities.TestEntity;
+import de.vilip.discovery.testentities.TestFile;
+
 public class OptionsParser
 {
 	private static final Options OPTIONS = OptionsDefinition.initalizeOptions();
@@ -12,20 +17,34 @@ public class OptionsParser
 	// ToDO: Distinguish between different inputs
 	public Optional<String> getOptionsValue(String... args)
 	{
-		CommandLineParser commandLineParser = new DefaultParser();
 		try
 		{
+			CommandLineParser commandLineParser = new DefaultParser();
 			CommandLine commandLine = commandLineParser.parse(OPTIONS, args);
 			if (hasOption(commandLine))
 			{
-				return Optional.of(getOptionValue(commandLine));
+
 			}
-			return Optional.empty();
+			else
+			{
+				throw new RuntimeException(ERROR_MESSAGE);
+			}
 		}
 		catch (ParseException e)
 		{
-			throw new RuntimeException(ERROR_MESSAGE, e);
+			throw new RuntimeException(e);
 		}
+	}
+
+	private TestEntity createTestEntity(String optionalValue)
+	{
+		return switch (optionalValue)
+		{
+			case "t" -> new SingleTest();
+			case "d" -> new TestDirectory();
+			case "f" -> new TestFile();
+			case null, default -> throw new RuntimeException();
+		};
 	}
 
 	private boolean hasOption(CommandLine commandLine)
