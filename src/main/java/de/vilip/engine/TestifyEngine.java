@@ -2,11 +2,11 @@ package de.vilip.engine;
 
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Optional;
 
 import de.vilip.annotations.AnnotationProcessor;
 import de.vilip.clioptions.OptionsParser;
 import de.vilip.discovery.FileFinder;
+import de.vilip.discovery.testentities.TestEntity;
 import de.vilip.invoker.MethodInvocator;
 import de.vilip.logging.LoggingUtils;
 
@@ -32,10 +32,10 @@ public class TestifyEngine
 		LoggingUtils.printBanner();
 
 		OptionsParser optionsParser = new OptionsParser();
-		Optional<String> file = optionsParser.getOptionsValue(args);
+		TestEntity testEntity = optionsParser.getOptionsValue(args);
 
 		FileFinder fileFinder = new FileFinder();
-		Class<?> clazz = fileFinder.getTestClass(file.get());
+		Class<?> clazz = fileFinder.getTestClass("");
 
 		AnnotationProcessor annotationProcessor = new AnnotationProcessor();
 		List<Method> methods = annotationProcessor.getTestMethods(clazz);

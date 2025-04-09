@@ -1,5 +1,6 @@
 package de.vilip.clioptions;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.cli.*;
@@ -11,29 +12,35 @@ import de.vilip.discovery.testentities.TestFile;
 
 public class OptionsParser
 {
+	private static final List<String> VALID_OPTIONS = List.of(CLIOptions.FILE.getShortOption(), CLIOptions.DIRECTORY.getShortOption(), CLIOptions.TEST.getShortOption());
 	private static final Options OPTIONS = OptionsDefinition.initalizeOptions();
-	private static final String ERROR_MESSAGE = "An error occurred while parsing the arguments.";
+	private static final String WRONG_OPTIONS_ERROR = "Wrong options used, please type testify --help for a list of options you have";
 
-	// ToDO: Distinguish between different inputs
-	public Optional<String> getOptionsValue(String... args)
+	public TestEntity getOptionsValue(String... args)
 	{
 		try
 		{
-			CommandLineParser commandLineParser = new DefaultParser();
-			CommandLine commandLine = commandLineParser.parse(OPTIONS, args);
-			if (hasOption(commandLine))
+			Optional<String> optionValue = getOptionValue(args);
+			if (optionValue.isPresent())
 			{
-
+				return createTestEntity(optionValue.get());
 			}
 			else
 			{
-				throw new RuntimeException(ERROR_MESSAGE);
+				throw new RuntimeException(WRONG_OPTIONS_ERROR);
 			}
 		}
 		catch (ParseException e)
 		{
 			throw new RuntimeException(e);
 		}
+	}
+
+	private Optional<String> getOptionValue(String... args) throws ParseException
+	{
+		CommandLineParser commandLineParser = new DefaultParser();
+		CommandLine commandLine = commandLineParser.parse(OPTIONS, args);
+		return getOption(commandLine);
 	}
 
 	private TestEntity createTestEntity(String optionalValue)
@@ -47,13 +54,11 @@ public class OptionsParser
 		};
 	}
 
-	private boolean hasOption(CommandLine commandLine)
+	private Optional<String> getOption(CommandLine commandLine)
 	{
-		return commandLine.hasOption("");
-	}
-
-	private String getOptionValue(CommandLine commandLine)
-	{
-		return commandLine.getOptionValue("");
+		return VALID_OPTIONS.stream()
+			.filter(commandLine::hasOption)
+			.map(commandLine::getOptionValue)
+			.findFirst();
 	}
 }
