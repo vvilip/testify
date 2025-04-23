@@ -9,7 +9,7 @@ import org.jboss.logging.Logger;
 
 public class LoggingUtils
 {
-	private static final String BANNER_PATH = "src/main/java/de/vilip/banner.txt";
+	private static final String BANNER_PATH = "banner.txt";
 	private static final Logger LOG = Logger.getLogger(LoggingUtils.class);
 
 	public static void printBanner()
