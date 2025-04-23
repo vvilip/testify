@@ -43,9 +43,9 @@ public class OptionsParser
 	{
 		return switch (optionalFlag)
 		{
-			case "t" -> new SingleTest();
-			case "d" -> new TestDirectory();
-			case "f" -> new TestFile();
+			case "t" -> new SingleTest(optionalValue);
+			case "d" -> new TestDirectory(optionalValue);
+			case "f" -> new TestFile(optionalValue);
 			case null, default -> throw new RuntimeException();
 		};
 	}
