@@ -1,33 +1,27 @@
 package de.vilip.discovery;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
+
+import de.vilip.discovery.testentities.TestEntity;
 
 public class FileFinder
 {
-	public Class<?> getTestClass(String path)
+	public List<Class<?>> getTestClass(TestEntity testEntity)
 	{
-		return getClazz(path);
+		return getClazz(testEntity);
 	}
 
-	private Class<?> getClazz(String path)
+	private List<Class<?>> getClazz(TestEntity testEntity)
 	{
-		try (URLClassLoader urlClassLoader = new URLClassLoader(new URL[] { getClassURL(path) }))
+		try (URLClassLoader urlClassLoader = new URLClassLoader(new URL[] { FileUtils.getUrl(testEntity.getPath()) }))
 		{
-			return urlClassLoader.loadClass("de.vilip.testclasses.Hello");
+			return testEntity.getClasses(urlClassLoader);
 		}
 		catch (Exception e)
 		{
 			throw new RuntimeException(e);
 		}
-	}
-
-	private URL getClassURL(String path) throws MalformedURLException
-	{
-		Path classFilePath = Paths.get(path);
-		return classFilePath.getParent().toUri().toURL();
 	}
 }

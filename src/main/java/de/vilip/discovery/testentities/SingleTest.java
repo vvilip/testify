@@ -1,15 +1,32 @@
 package de.vilip.discovery.testentities;
 
 import java.lang.reflect.Method;
+import java.net.URLClassLoader;
+import java.util.List;
+
+import de.vilip.discovery.FileUtils;
 
 public class SingleTest implements TestEntity
 {
-	private Class<?> regardingClass;
+	private Class<?> clazz;
 	private Method testMethod;
-	private String name;
+	private String path;
 
-	public SingleTest(String name)
+	public SingleTest(String path)
 	{
-		this.name = name;
+		this.path = path;
+	}
+
+	@Override
+	public String getPath()
+	{
+		return path;
+	}
+
+	@Override
+	public List<Class<?>> getClasses(URLClassLoader urlClassLoader) throws ClassNotFoundException
+	{
+		String name = FileUtils.getFileName(path);
+		return List.of(urlClassLoader.loadClass(name));
 	}
 }
