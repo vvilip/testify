@@ -11,7 +11,8 @@ public class FileUtils
 {
 	public static String getFileName(String path)
 	{
-		return Paths.get(path).getFileName().toString();
+		String substring = Paths.get(path).getFileName().toString();
+		return substring.substring(0, substring.length() - 6);
 	}
 
 	public static List<String> getFileNames(List<String> paths)

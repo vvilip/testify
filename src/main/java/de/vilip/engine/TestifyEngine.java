@@ -35,10 +35,10 @@ public class TestifyEngine
 		TestEntity testEntity = optionsParser.parseOptions(args);
 
 		FileFinder fileFinder = new FileFinder();
-		Class<?> clazz = fileFinder.getTestClass("");
+		List<Class<?>> classes = fileFinder.getTestClass(testEntity);
 
 		AnnotationProcessor annotationProcessor = new AnnotationProcessor();
-		List<Method> methods = annotationProcessor.getTestMethods(clazz);
+		List<Method> methods = annotationProcessor.getTestMethods(classes);
 
 		MethodInvocator methodInvocator = new MethodInvocator();
 		methodInvocator.runTestMethods(methods);
