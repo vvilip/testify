@@ -4,12 +4,12 @@ public class Testify
 {
 	public static void main(String... args)
 	{
-		startEngine(args);
+		startEngine(System.getProperty("user.dir"), args);
 	}
 
-	public static void startEngine(String... args)
+	public static void startEngine(String testDirectory, String... args)
 	{
 		TestifyEngine testifyEngine = TestifyEngine.getInstance();
-		testifyEngine.start(args);
+		testifyEngine.start(testDirectory, args);
 	}
 }

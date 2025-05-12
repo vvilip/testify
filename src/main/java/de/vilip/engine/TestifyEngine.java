@@ -27,7 +27,7 @@ public class TestifyEngine
 		return Holder.INSTANCE;
 	}
 
-	public void start(String... args)
+	public void start(String testDirectory, String... args)
 	{
 		LoggingUtils.printBanner();
 
@@ -35,7 +35,7 @@ public class TestifyEngine
 		TestEntity testEntity = optionsParser.parseOptions(args);
 
 		FileFinder fileFinder = new FileFinder();
-		List<Class<?>> classes = fileFinder.getTestClass(testEntity);
+		List<Class<?>> classes = fileFinder.getTestClass(testEntity, testDirectory);
 
 		AnnotationProcessor annotationProcessor = new AnnotationProcessor();
 		List<Method> methods = annotationProcessor.getTestMethods(classes);

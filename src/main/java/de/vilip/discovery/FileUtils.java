@@ -9,10 +9,11 @@ import java.util.stream.Collectors;
 
 public class FileUtils
 {
+	private static final String JAVA_DIR = "/java/";
+
 	public static String getFileName(String path)
 	{
-		String substring = Paths.get(path).getFileName().toString();
-		return substring.substring(0, substring.length() - 6);
+		return JAVA_DIR + path;
 	}
 
 	public static List<String> getFileNames(List<String> paths)
